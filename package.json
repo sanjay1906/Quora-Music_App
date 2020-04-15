@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "portal-install": "npm install --prefix portal",
-    "dev": "node index.js",
+    "start": "node index.js",
     "server": "nodemon index.js --exec babel-node --presets babel-preset-env",
     "portal": "npm start --prefix portal",
-    "start": "concurrently \"npm run server\" \"npm run portal\"",
+    "dev": "concurrently \"npm run server\" \"npm run portal\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix portal && npm run build --prefix portal"
   },
   "keywords": [],
