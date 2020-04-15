@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "portal-install": "npm install --prefix portal",
-    "start": "node index.js",
+    "dev": "node index.js",
     "server": "nodemon index.js --exec babel-node --presets babel-preset-env",
     "portal": "npm start --prefix portal",
-    "dev": "concurrently \"npm run server\" \"npm run portal\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install --prefix portal && npm run build --prefix portal"
+    "start": "concurrently \"npm run server\" \"npm run portal\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix portal && npm run build --prefix portal"
   },
   "keywords": [],
   "author": "Sanjay Thakur",
