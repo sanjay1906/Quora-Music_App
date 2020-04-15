@@ -9,7 +9,7 @@
     "server": "nodemon index.js",
     "portal": "npm start --prefix portal",
     "quora": "concurrently \"npm run server\" \"npm run portal\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix portal && npm run build --prefix portal"
+    "heroku-postbuild": "cd portal && npm install && npm run build"
   },
   "keywords": [],
   "author": "Sanjay Thakur",
