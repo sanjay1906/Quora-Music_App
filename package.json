@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "portal-install": "npm install --prefix portal",
-    "start": "node index.js",
+    "serv": "node index.js",
     "server": "nodemon index.js",
     "portal": "npm start --prefix portal",
-    "quora": "concurrently \"npm run server\" \"npm run portal\"",
+    "start": "concurrently \"npm run server\" \"npm run portal\"",
     "heroku-postbuild": "cd portal && npm install && npm run build"
   },
   "keywords": [],
