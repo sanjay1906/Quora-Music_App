@@ -4,11 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "portal-install": "npm install --prefix portal",
-    "serv": "node index.js",
-    "server": "nodemon index.js",
-    "portal": "npm start --prefix portal",
-    "start": "concurrently \"npm run server\" \"npm run portal\"",
+    "start": "node index.js",
     "heroku-postbuild": "cd portal && npm install && npm run build"
   },
   "keywords": [],

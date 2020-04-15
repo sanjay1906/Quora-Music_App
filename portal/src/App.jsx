@@ -172,23 +172,23 @@ class App extends Component {
       snackMessage,
     } = this.state;
     const { repeatType, playState, manager } = this.props;
-    if (!persons) {
-      return (
-        <div
-          style={{
-            position: 'fixed',
-            top: '50vh',
-            width: '100%',
-            '& > * + *': {},
-          }}
-        >
-          <LinearProgress variant="query" color="secondary" />
-          <LinearProgress variant="indeterminate" />
-          <LinearProgress variant="indeterminate" color="secondary" />
-          <LinearProgress variant="query" />
-        </div>
-      );
-    }
+    // if (!persons) {
+    //   return (
+    //     <div
+    //       style={{
+    //         position: 'fixed',
+    //         top: '50vh',
+    //         width: '100%',
+    //         '& > * + *': {},
+    //       }}
+    //     >
+    //       <LinearProgress variant="query" color="secondary" />
+    //       <LinearProgress variant="indeterminate" />
+    //       <LinearProgress variant="indeterminate" color="secondary" />
+    //       <LinearProgress variant="query" />
+    //     </div>
+    //   );
+    // }
     return (
       <>
         <audio
