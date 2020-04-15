@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { playSong } from './actions';
 import AxiosApi from './config/axios';
 import Navbar from './components/Navbar';
-// import PlayingCtrl from './components/PlayingCtrl';
-// import Addsong from './components/Addsong';
+import PlayingCtrl from './components/PlayingCtrl';
+import Addsong from './components/Addsong';
 import Snackbar from './components/Snackbar';
-// import { LinearProgress } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 
 const mapStateToProps = (state) => ({
   playState: state.playState,
@@ -162,33 +162,33 @@ class App extends Component {
 
   render() {
     const {
-      // persons,
-      // currentTime,
-      // time,
-      // duration,
-      // installEvent,
+      persons,
+      currentTime,
+      time,
+      duration,
+      installEvent,
       severity,
       isOpen,
       snackMessage,
     } = this.state;
-    // const { repeatType, playState, manager } = this.props;
-    // if (!persons) {
-    //   return (
-    //     <div
-    //       style={{
-    //         position: 'fixed',
-    //         top: '50vh',
-    //         width: '100%',
-    //         '& > * + *': {},
-    //       }}
-    //     >
-    //       <LinearProgress variant="query" color="secondary" />
-    //       <LinearProgress variant="indeterminate" />
-    //       <LinearProgress variant="indeterminate" color="secondary" />
-    //       <LinearProgress variant="query" />
-    //     </div>
-    //   );
-    // }
+    const { repeatType, playState, manager } = this.props;
+    if (!persons) {
+      return (
+        <div
+          style={{
+            position: 'fixed',
+            top: '50vh',
+            width: '100%',
+            '& > * + *': {},
+          }}
+        >
+          <LinearProgress variant="query" color="secondary" />
+          <LinearProgress variant="indeterminate" />
+          <LinearProgress variant="indeterminate" color="secondary" />
+          <LinearProgress variant="query" />
+        </div>
+      );
+    }
     return (
       <>
         <audio
@@ -209,7 +209,7 @@ class App extends Component {
           isOpen={isOpen}
           severity={severity}
         />
-        {/* {manager ? (
+        {manager ? (
           <Addsong updateData={this.getData} songs={persons} />
         ) : (
           <PlayingCtrl
@@ -224,7 +224,7 @@ class App extends Component {
             currentTime={currentTime}
             playPrevious={this.playPrevious}
           />
-        )} */}
+        )}
       </>
     );
   }
