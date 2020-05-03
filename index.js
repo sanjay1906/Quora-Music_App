@@ -23,8 +23,6 @@ mongoose
 //registering cors
 app.use(cors());
 
-app.use('/uploads', express.static('uploads'));
-
 //configure body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -36,11 +34,10 @@ app.use(morgan('dev')); // configire morgan
 app.use('/music', userRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  // Set static folder
   app.use(express.static('portal/build'));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'portal', 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'portal', 'build', 'index.html')); // relative path
   });
 }
 
