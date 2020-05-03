@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { playSong } from './actions';
-import AxiosApi from './config/axios';
+import axios from 'axios';
 import Navbar from './components/Navbar';
 import PlayingCtrl from './components/PlayingCtrl';
 import Addsong from './components/Addsong';
@@ -37,7 +37,7 @@ class App extends Component {
   }
 
   getData = () => {
-    AxiosApi.get(`music`).then((res) => {
+    axios.get(`music`).then((res) => {
       const persons = res.data;
       this.setState({ persons });
     });

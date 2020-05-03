@@ -26,9 +26,9 @@ import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import ImageIcon from '@material-ui/icons/Image';
 import AddIcon from '@material-ui/icons/Add';
 import ExpressFirebase from 'express-firebase';
-import AxiosApi from '../config/axios';
 import moment from 'moment';
 import Snackbar from './Snackbar';
+import axios from 'axios';
 
 const FirebaseConfig = {
   apiKey: 'AIzaSyCcVeC75EcRSTahjkwqjUA7faGeS-nFssI',
@@ -143,7 +143,7 @@ export default function DenseTable(props) {
             ':' +
             seconds.toString().padStart(2, '0');
 
-          await AxiosApi.post(`music`, {
+          await axios.post(`music`, {
             title,
             artist,
             music: musicURL,
@@ -191,7 +191,7 @@ export default function DenseTable(props) {
   };
 
   const handleDaleteMusic = async (musicId, musicName) => {
-    await AxiosApi.delete(`music/${musicId}`);
+    await axios.delete(`music/${musicId}`);
     setsnackbar({
       ...snackbar,
       isOpen: true,
