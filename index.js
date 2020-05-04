@@ -9,6 +9,7 @@ const path = require('path');
 const userRoutes = require('./api/routes/music'); //bring in our user routes
 
 const app = express();
+
 //configure database and mongoose
 mongoose.set('useCreateIndex', true);
 mongoose

@@ -35,7 +35,7 @@ body {
   position: fixed;
   top: 60px;
   right: 20px;
-  width: 5vh;
+  width: 6vh;
   padding-bottom: 20px;
   padding-top: 20px;
   height: 150px;
@@ -48,9 +48,10 @@ body {
   position: fixed;
   bottom: 0px;
   left: 0px;
+  right: 0px;
   width: 100%;
   padding-bottom: 50px;
-  height: 140px;
+  height: 80px;
 }
 .stay-control {
   position: fixed;
@@ -85,7 +86,6 @@ body {
 }
 .now-playing-container {
   display: flex;
-  padding: 15px;
 }
 .now-playing-container .song-name {
   padding: 5px;
@@ -97,4 +97,23 @@ body {
 .now-playing-container button {
   border: none;
   background-color: transparent;
+}
+.marquee {
+  width: 100%;
+  line-height: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.marquee p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 15s linear infinite;
+}
+@keyframes marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-100%, 0);
+  }
 }

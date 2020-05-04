@@ -153,7 +153,7 @@ function FullScreenDialog(props) {
         <div onClick={() => setvolume(false)}>
           <Container
             spacing={4}
-            style={{ position: 'fixed', top: 100, textAlign: 'center' }}
+            style={{ position: 'fixed', top: 85, textAlign: 'center' }}
           >
             {volume && (
               <div className="volume-control">
@@ -174,21 +174,19 @@ function FullScreenDialog(props) {
                 backgroundColor: '#cfe8fc',
                 width: '42.5vh',
                 height: '43vh',
-                borderRadius: '15%',
+                borderRadius: '20%',
               }}
             />
-            <Typography style={{ marginTop: 20 }} variant="h4" gutterBottom>
+            <Typography style={{ marginTop: 20 }} variant="h6" gutterBottom>
               {song.title}
             </Typography>
-            <Typography style={{ marginTop: 20 }} variant="h6" gutterBottom>
-              {song.artist}
+            <Typography className="marquee" variant="h6" gutterBottom>
+              <p>{song.artist}</p>
             </Typography>
           </Container>
           <Paper className="play-control">
             <Slider
               disabled={currentTime ? false : true}
-              style={{ height: '2px' }}
-              className="song-progress"
               value={currentTime}
               onChange={(_, newVal) => timeDrag(newVal)}
               max={100}
