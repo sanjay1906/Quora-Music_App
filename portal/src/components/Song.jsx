@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 const Song = ({ song, handleClick }) => (
-  <ListItem className="song" onClick={handleClick}>
+  <ListItem onClick={handleClick}>
     <ListItemAvatar>
       <Avatar alt={song.title} src={song.musicImage} />
     </ListItemAvatar>

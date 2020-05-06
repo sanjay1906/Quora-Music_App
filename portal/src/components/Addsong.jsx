@@ -293,48 +293,50 @@ export default function DenseTable(props) {
           </div>
         )}
       </Dialog>
-      <TableContainer component={Paper}>
-        <Tooltip onClick={handleClickOpen} title="Add" aria-label="add">
-          <Fab color="secondary" className={classes.absolute}>
-            <AddIcon />
-          </Fab>
-        </Tooltip>
-        <Table
-          className={classes.table}
-          size="small"
-          aria-label="a dense table"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>Music Name</TableCell>
-              <TableCell>Artists</TableCell>
-              <TableCell>Time</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell align="center">Delete</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {songs.map((row) => (
-              <TableRow key={row._id}>
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell>{row.artist}</TableCell>
-                <TableCell>{row.time}</TableCell>
-                <TableCell>
-                  {moment(row.created).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell align="center">
-                  <DeleteForeverIcon
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => handleDaleteMusic(row._id, row.title)}
-                  />
-                </TableCell>
+      <div style={{ marginTop: '65px' }}>
+        <TableContainer component={Paper}>
+          <Tooltip onClick={handleClickOpen} title="Add" aria-label="add">
+            <Fab color="secondary" className={classes.absolute}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+          <Table
+            className={classes.table}
+            size="small"
+            aria-label="a dense table"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell>Music Name</TableCell>
+                <TableCell>Artists</TableCell>
+                <TableCell>Time</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell align="center">Delete</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {songs.map((row) => (
+                <TableRow key={row._id}>
+                  <TableCell component="th" scope="row">
+                    {row.title}
+                  </TableCell>
+                  <TableCell>{row.artist}</TableCell>
+                  <TableCell>{row.time}</TableCell>
+                  <TableCell>
+                    {moment(row.created).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell align="center">
+                    <DeleteForeverIcon
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => handleDaleteMusic(row._id, row.title)}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
     </div>
   );
 }

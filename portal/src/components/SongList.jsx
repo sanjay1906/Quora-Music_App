@@ -17,7 +17,7 @@ const SongList = ({ songs, play }) => {
     );
   }
   return (
-    <div>
+    <div style={{ marginBottom: '55px', marginTop: '55px' }}>
       <List>
         {songs.map((song, ind) => [
           <Song

@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="left" ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const mapStateToProps = (state) => ({
@@ -129,6 +129,12 @@ function FullScreenDialog(props) {
     setvolume(false);
   };
 
+  const handleSliderChange = () => {
+    setTimeout(() => {
+      setvolume(false);
+    }, 3000);
+  };
+
   return (
     <div>
       <Dialog fullScreen open={isOpen} TransitionComponent={Transition}>
@@ -152,8 +158,12 @@ function FullScreenDialog(props) {
         </AppBar>
         <div onClick={() => setvolume(false)}>
           <Container
-            spacing={4}
-            style={{ position: 'fixed', top: 85, textAlign: 'center' }}
+            maxWidth="md"
+            fixed
+            style={{
+              textAlign: 'center',
+              marginTop: 25,
+            }}
           >
             {volume && (
               <div className="volume-control">
@@ -163,6 +173,7 @@ function FullScreenDialog(props) {
                   orientation="vertical"
                   value={isVolume}
                   aria-labelledby="vertical-slider"
+                  onChangeCommitted={handleSliderChange}
                 />
               </div>
             )}
