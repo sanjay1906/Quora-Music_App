@@ -293,7 +293,7 @@ export default function DenseTable(props) {
           </div>
         )}
       </Dialog>
-      <div style={{ marginTop: '65px' }}>
+      <div style={{ marginTop: '55px' }}>
         <TableContainer component={Paper}>
           <Tooltip onClick={handleClickOpen} title="Add" aria-label="add">
             <Fab color="secondary" className={classes.absolute}>
