@@ -6,6 +6,9 @@ export const STUFFLE = 'STUFFLE';
 export const ISOPEN = 'ISOPEN';
 export const VOLUME = 'VOLUME';
 export const MANAGER = 'MANAGER';
+export const ADD_SONGS = 'ADD_SONGS';
+export const REMOVE_SONGS = 'REMOVE_SONGS';
+export const LOCALMODE = 'LOCALMODE';
 
 export const playSong = (id) => {
   return {
@@ -37,4 +40,19 @@ export const volumeUpDown = (volume) => ({
 export const managerOpen = (m) => ({
   type: MANAGER,
   m,
+});
+
+export const addSongs = (songs) => ({
+  type: ADD_SONGS,
+  songs,
+});
+
+export const removeSong = (id) => ({
+  type: REMOVE_SONGS,
+  id,
+});
+
+export const localMode = (l) => ({
+  type: LOCALMODE,
+  l,
 });

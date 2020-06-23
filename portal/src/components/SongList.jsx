@@ -1,28 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import Divider from '@material-ui/core/Divider';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
-import { playSong } from '../actions';
+import { playSong, removeSong } from '../actions';
 import Song from './Song';
 
-const SongList = ({ songs, play }) => {
-  const handleSongClick = (ind) => () => play(ind);
+const mapStateToProps = (state) => ({
+  localMode: state.stuffle.localMode,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  playSong: (s) => dispatch(playSong(s)),
+  removeSong: (r) => dispatch(removeSong(r)),
+});
+
+const SongList = (props) => {
+  const { songs, playSong, localMode, removeSong } = props;
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [activeSong, setActiveSong] = useState(-1);
+
+  const setActiveSongItem = (ind) => ({ target }) => {
+    setAnchorEl(target);
+    setActiveSong(ind);
+  };
 
   if (!songs.length) {
     return (
-      <h4 style={{ fontWeight: 300, textAlign: 'center' }}>
-        No Songs Present. Please Add Songs
+      <h4
+        style={{
+          position: 'fixed',
+          top: '300px',
+          left: '45px',
+          fontWeight: 600,
+          textAlign: 'center',
+        }}
+      >
+        {localMode
+          ? 'No Songs Present. Please Add Songs'
+          : 'No Songs Here... Admin can Add Only'}
       </h4>
     );
   }
   return (
     <div style={{ marginBottom: '55px', marginTop: '55px' }}>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+      >
+        <MenuItem onClick={() => removeSong(activeSong)}>Remove Song</MenuItem>
+      </Menu>
       <List>
         {songs.map((song, ind) => [
           <Song
             key={`song-${song.lastModifiedDate}`}
-            handleClick={handleSongClick(ind)}
+            handleClick={() => playSong(ind)}
+            handleIconClick={setActiveSongItem(ind)}
             song={song}
           />,
           <Divider key={`divider-${song.lastModifiedDate}`} />,
@@ -33,8 +72,7 @@ const SongList = ({ songs, play }) => {
 };
 
 SongList.propTypes = {
-  play: PropTypes.func.isRequired,
-  songs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+  playSong: PropTypes.func.isRequired,
 };
 
-export default connect(null, { play: playSong })(SongList);
+export default connect(mapStateToProps, mapDispatchToProps)(SongList);

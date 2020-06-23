@@ -17,8 +17,9 @@ import InputBase from '@material-ui/core/InputBase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
-import { managerOpen } from '../actions';
+import { managerOpen, localMode, addSongs } from '../actions';
 import Snackbar from './Snackbar';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,10 +43,13 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = (state) => ({
   manager: state.stuffle.manager,
+  localMode: state.stuffle.localMode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   managerOpen: (m) => dispatch(managerOpen(m)),
+  localModeFun: (l) => dispatch(localMode(l)),
+  addSongs: (songs) => dispatch(addSongs(songs)),
 });
 
 function Navbar(props) {
@@ -59,7 +63,14 @@ function Navbar(props) {
     snackMessage: '',
   });
 
-  const { managerOpen, manager } = props;
+  const {
+    managerOpen,
+    manager,
+    localMode,
+    addSongs,
+    localModeFun,
+    updateData,
+  } = props;
 
   const { snackMessage, isOpen, severity } = snackbar;
 
@@ -83,6 +94,8 @@ function Navbar(props) {
       });
       managerOpen(true);
       setcodeBox(false);
+      localModeFun(false);
+      localStorage.removeItem('local');
       setcode('');
     } else {
       setsnackbar({
@@ -107,7 +120,18 @@ function Navbar(props) {
 
   const backHome = () => {
     managerOpen(false);
+    localModeFun(false);
+    localStorage.removeItem('local');
     setopen(false);
+    updateData();
+  };
+
+  const goLocal = () => {
+    localModeFun(true);
+    localStorage.setItem('local', true);
+    setopen(false);
+    managerOpen(false);
+    updateData();
   };
 
   return (
@@ -123,7 +147,27 @@ function Navbar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">Quora Music</Typography>
+          <Typography style={{ flex: 1 }} variant="h6">
+            Quora Music
+          </Typography>
+          {localMode && (
+            <IconButton
+              color="inherit"
+              aria-label="Add"
+              component="label"
+              htmlFor="song-input"
+            >
+              <input
+                style={{ display: 'none' }}
+                id="song-input"
+                onChange={(e) => addSongs(e.currentTarget.files)}
+                type="file"
+                multiple
+                accept="audio/mp3"
+              />
+              <AddIcon />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
       <Snackbar
@@ -140,6 +184,12 @@ function Navbar(props) {
                 <LibraryMusicOutlinedIcon />
               </ListItemIcon>
               <ListItemText primary={'Home'} />
+            </ListItem>
+            <ListItem button onClick={goLocal}>
+              <ListItemIcon>
+                <LibraryMusicOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Local Songs'} />
             </ListItem>
             <ListItem button onClick={openCodeBox}>
               <ListItemIcon>

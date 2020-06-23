@@ -73,6 +73,12 @@ const useStyles = makeStyles((theme) => ({
     width: '35rem',
     '& > * + *': {},
   },
+  labalTitle: {
+    whiteSpace: 'nowrap',
+    width: '10px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
 }));
 
 export default function DenseTable(props) {
@@ -251,7 +257,7 @@ export default function DenseTable(props) {
                   type="file"
                   id="soundFile"
                   capture="user"
-                  accept="audio/*|media_type"
+                  accept="audio/mp3"
                   onChange={handleMusicFile}
                 />
                 <label htmlFor="soundFile">
@@ -269,7 +275,7 @@ export default function DenseTable(props) {
                   type="file"
                   id="imageFile"
                   capture="user"
-                  accept="image/*|media_type"
+                  accept="image/png, image/jpeg"
                   onChange={handleMImageFile}
                 />
                 <label htmlFor="imageFile">

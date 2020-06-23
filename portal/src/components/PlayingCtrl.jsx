@@ -14,6 +14,7 @@ import SongList from './SongList';
 const mapStateToProps = (state) => ({
   playState: state.playState,
   repeatType: state.common.repeat,
+  localMode: state.stuffle.localMode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -34,7 +35,6 @@ class PlayingCtrl extends Component {
     const {
       setOpen,
       playState,
-      song,
       songs,
       playNext,
       playPrevious,
@@ -44,6 +44,8 @@ class PlayingCtrl extends Component {
       togglePlaying: toggle,
       timeDrag,
     } = this.props;
+
+    const song = JSON.parse(localStorage.getItem('playedSong'));
 
     return (
       <div>
@@ -60,6 +62,7 @@ class PlayingCtrl extends Component {
               currentTime={currentTime}
               playPrevious={playPrevious}
             />
+
             <Grid
               className="stay-control"
               style={{

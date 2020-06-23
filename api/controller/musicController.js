@@ -19,7 +19,7 @@ const addNewMusic = async (req, res) => {
       music,
       musicImage,
       artist,
-      time
+      time,
     }).save();
     res.status(200).json({ newmusic, msg: 'music added' });
   } catch (error) {
@@ -41,5 +41,5 @@ const deleteMusic = async (req, res) => {
 module.exports = {
   getAllMusics,
   addNewMusic,
-  deleteMusic
+  deleteMusic,
 };

@@ -15,6 +15,8 @@ const mapStateToProps = (state) => ({
   stuffle: state.stuffle.stuffle,
   isVolume: state.stuffle.isVolume,
   manager: state.stuffle.manager,
+  localSongs: state.songs,
+  localMode: state.stuffle.localMode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -37,17 +39,34 @@ class App extends Component {
   }
 
   getData = () => {
-    axios.get(`music`).then((res) => {
-      const persons = res.data;
-      this.setState({ persons });
-    });
+    const { localSongs } = this.props;
+    const local = JSON.parse(localStorage.getItem('local'));
+    if (local) {
+      const songs = localSongs.map(function (val) {
+        return {
+          title: val.name,
+          music: URL.createObjectURL(val),
+          musicImage: val.name,
+          artist: 'unknown',
+        };
+      });
+      localStorage.setItem('songs', JSON.stringify(songs));
+    } else {
+      axios.get(`music`).then((res) => {
+        const songs = res.data;
+        this.setState({ songs });
+        localStorage.setItem('songs', JSON.stringify(songs));
+      });
+    }
   };
 
   componentDidMount() {
+    localStorage.removeItem('local');
+    localStorage.removeItem('playedSong');
     this.getData();
-    const { persons } = this.state;
-    if (persons) {
-      this.audioPlayer.src = persons[0].music;
+    const { songs } = this.state;
+    if (songs) {
+      this.audioPlayer.src = songs[0].music;
     }
     window.addEventListener('beforeinstallprompt', (e) => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -98,28 +117,26 @@ class App extends Component {
   }
 
   playNext = () => {
-    const { persons } = this.state;
+    const songs = JSON.parse(localStorage.getItem('songs'));
     const { playState, playSong: play } = this.props;
-    URL.revokeObjectURL(persons[playState.songId]);
-    const nextSongId = (playState.songId + 1) % persons.length;
+    const nextSongId = (playState.songId + 1) % songs.length;
     play(nextSongId);
   };
 
   songEnded = () => {
-    const { persons } = this.state;
+    const songs = JSON.parse(localStorage.getItem('songs'));
     const { stuffle, playState, repeatType, playSong: play } = this.props;
     if (repeatType === 1) {
       // repeat one
       play(playState.songId);
     } else if (stuffle === true) {
       // stuffle play
-      let randomIndex = Math.round(Math.random() * persons.length);
-      const liveStuffle = randomIndex === persons.length ? 0 : randomIndex;
+      let randomIndex = Math.round(Math.random() * songs.length);
+      const liveStuffle = randomIndex === songs.length ? 0 : randomIndex;
       play(liveStuffle);
     } else if (repeatType === 0) {
       // play all song one time
-      URL.revokeObjectURL(persons[playState.songId]);
-      if (playState.songId < persons.length - 1) play(playState.songId + 1);
+      if (playState.songId < songs.length - 1) play(playState.songId + 1);
     } else {
       // repeat all
       this.playNext();
@@ -127,11 +144,11 @@ class App extends Component {
   };
 
   playPrevious = () => {
-    const { persons } = this.state;
+    const songs = JSON.parse(localStorage.getItem('songs'));
     const { playState, playSong: play } = this.props;
-    URL.revokeObjectURL(persons[playState.songId]);
+
     const prevSongId =
-      playState.songId === 0 ? persons.length - 1 : playState.songId - 1;
+      playState.songId === 0 ? songs.length - 1 : playState.songId - 1;
     play(prevSongId);
   };
 
@@ -148,11 +165,12 @@ class App extends Component {
   };
 
   playSong = (id) => {
-    const { persons } = this.state;
-    if (persons[id]) {
-      this.audioPlayer.src = persons[id].music;
+    const thesong = JSON.parse(localStorage.getItem('songs'));
+    if (thesong) {
+      this.audioPlayer.src = thesong[id].music;
       this.audioPlayer.play();
-      window.document.title = persons[id].title;
+      window.document.title = thesong[id].title;
+      localStorage.setItem('playedSong', JSON.stringify(thesong[id]));
     }
   };
 
@@ -162,7 +180,7 @@ class App extends Component {
 
   render() {
     const {
-      persons,
+      songs,
       currentTime,
       time,
       duration,
@@ -171,8 +189,14 @@ class App extends Component {
       isOpen,
       snackMessage,
     } = this.state;
-    const { repeatType, playState, manager } = this.props;
-    if (!persons) {
+    const {
+      repeatType,
+      playState,
+      manager,
+      localMode,
+      localSongs,
+    } = this.props;
+    if (!songs) {
       return (
         <div
           style={{
@@ -202,7 +226,7 @@ class App extends Component {
         >
           <track kind="captions" {...{}} />
         </audio>
-        <Navbar />
+        <Navbar updateData={this.getData} />
         <Snackbar
           snackMessage={snackMessage}
           snackClose={() => this.setState({ isOpen: false })}
@@ -210,12 +234,14 @@ class App extends Component {
           severity={severity}
         />
         {manager ? (
-          <Addsong updateData={this.getData} songs={persons} />
+          <Addsong updateData={this.getData} songs={songs} />
         ) : (
           <PlayingCtrl
             installEvent={installEvent}
-            songs={persons}
-            song={persons[playState.songId]}
+            songs={localMode ? localSongs : songs}
+            song={
+              localMode ? localSongs[playState.songId] : songs[playState.songId]
+            }
             playNext={this.playNext}
             timeDrag={this.timeDrag}
             time={time}

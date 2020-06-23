@@ -8,21 +8,29 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import reducers from './reducers';
+import { saveState, getState } from './localStore';
 
 const muiTheme = createMuiTheme({
   palette: {
     primary: deepPurple,
   },
 });
-const store = createStore(reducers);
+getState().then((localState) => {
+  let store = createStore(reducers, localState);
 
-ReactDOM.render(
-  <Provider store={store}>
-    <MuiThemeProvider theme={muiTheme}>
-      <App />
-    </MuiThemeProvider>
-  </Provider>,
-  document.getElementById('root')
-);
-
+  store.subscribe(() => {
+    saveState({
+      songs: store.getState().songs,
+    });
+  });
+  ReactDOM.render(
+    // eslint-disable-next-line
+    <Provider store={store}>
+      <MuiThemeProvider theme={muiTheme}>
+        <App />
+      </MuiThemeProvider>
+    </Provider>,
+    document.getElementById('root')
+  );
+});
 registerServiceWorker();

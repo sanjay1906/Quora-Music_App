@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import { connect } from 'react-redux';
+import { Avatar, Grid } from '@material-ui/core';
 import {
   repeatType,
   togglePlaying,
@@ -41,6 +42,14 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  large: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
+    fontSize: theme.spacing(20),
   },
 }));
 
@@ -54,6 +63,7 @@ const mapStateToProps = (state) => ({
   stuffle: state.stuffle.stuffle,
   isOpen: state.stuffle.isOpen,
   isVolume: state.stuffle.isVolume,
+  localMode: state.stuffle.localMode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -86,7 +96,6 @@ function FullScreenDialog(props) {
     isOpen,
     setOpen,
     playState,
-    song,
     playNext,
     playPrevious,
     time,
@@ -135,6 +144,8 @@ function FullScreenDialog(props) {
     }, 3000);
   };
 
+  const song = JSON.parse(localStorage.getItem('playedSong'));
+
   return (
     <div>
       <Dialog fullScreen open={isOpen} TransitionComponent={Transition}>
@@ -177,23 +188,35 @@ function FullScreenDialog(props) {
                 />
               </div>
             )}
-
-            <img
-              alt={song.title}
-              src={song.musicImage}
-              style={{
-                backgroundColor: '#cfe8fc',
-                width: '42.5vh',
-                height: '43vh',
-                borderRadius: '20%',
-              }}
-            />
-            <Typography style={{ marginTop: 20 }} variant="h6" gutterBottom>
-              {song.title}
-            </Typography>
-            <Typography className="marquee" variant="h6" gutterBottom>
-              <p>{song.artist}</p>
-            </Typography>
+            <Grid container direction="column" alignItems="center">
+              <Grid item xs={12}>
+                <Avatar
+                  variant="circle"
+                  alt={song.title}
+                  src={song.musicImage}
+                  className={classes.large}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  style={{
+                    marginTop: 20,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                  variant="h6"
+                  gutterBottom
+                >
+                  {song.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography className="marquee" variant="h6" gutterBottom>
+                  <p>{song.artist}</p>
+                </Typography>
+              </Grid>
+            </Grid>
           </Container>
           <Paper className="play-control">
             <Slider
