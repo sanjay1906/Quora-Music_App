@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-//configure body-parser ends here
+// configure body-parser ends here
 app.use(morgan('dev')); // configire morgan
 app.use('/music', userRoutes);
 
