@@ -9,7 +9,8 @@
     "server": "nodemon index.js --exec babel-node --presets babel-preset-env",
     "portal": "npm start --prefix portal",
     "dev": "concurrently \"npm run server\" \"npm run portal\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix portal && npm run build --prefix portal"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix portal && npm run build --prefix portal",
+    "build": "npm run build --prefix portal"
   },
   "keywords": [],
   "author": "Sanjay Thakur",
